@@ -1,19 +1,7 @@
-import React, {useEffect, useState} from 'react'
-import s from './MessageForm.module.css'
+import React, {useState} from 'react'
 
-export const MessageForm = (props) => {
+export const MessageForm = ({onSubmit}) => {
     const [messageText, setMessageText] = useState('')
-
-    useEffect(() => {
-        let timeout
-        if(props.messageList[props.messageList.length -1]?.author === 'me') {
-            timeout = setTimeout(() => {
-                props.setMessageList((prevMessageList) => [...prevMessageList, {text: `Your message is: ${messageText}`, author: 'robot'}])
-            }, 1500)
-        }
-
-        return () => clearTimeout(timeout)
-    }, [props.messageList])
 
     const handleChange = (e) => {
         setMessageText(e.target.value)
@@ -21,7 +9,7 @@ export const MessageForm = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        props.setMessageList([...props.messageList, {text: messageText, author: 'me'}])
+        onSubmit(messageText)
 
     }
 
