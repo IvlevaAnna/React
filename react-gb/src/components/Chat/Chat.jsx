@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import s from "./Chat.module.css";
 import {MessageForm} from "../MessageForm/MessageForm";
 import {Message} from "../Message/Message";
@@ -26,7 +26,7 @@ export const Chat = () => {
 
     useEffect(() => {
         let timeout
-        if(messageList[chatId][messageList[chatId].length -1]?.author === 'me') {
+        if(messageList[chatId][messageList[chatId]?.length -1].author === 'me') {
             timeout = setTimeout(() => {
                 setMessageList((prevMessageList) =>
                     ({ ...prevMessageList, [chatId] : [...prevMessageList[chatId], {text: `Your message is: ${prevMessageList[chatId][prevMessageList[chatId].length-1].text}`, author: 'robot', id: `msg-${Date.now()}`}]}))
@@ -41,6 +41,10 @@ export const Chat = () => {
         setMessageList((prevMessageList) =>
             ({...prevMessageList, [chatId] : [...prevMessageList[chatId], {text: messageText, author: 'me', id: `msg-${Date.now()}`}] }))
 
+    }
+
+    if (!messageList[chatId]) {
+        return <Navigate to='/chats' replace />
     }
 
     return (
