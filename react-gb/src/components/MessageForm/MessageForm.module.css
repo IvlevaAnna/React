@@ -1,8 +1,6 @@
-input[type="text"], button[type='submit'] {
-    border-radius: 3px 0 0 3px;
-    border: solid 1px black;
-}
-
-button[type='submit'] {
-    border-radius: 0 3px 3px 0;
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 40%;
+    gap: 15px;
 }
