@@ -1,24 +1,10 @@
 .App {
-  margin: 50px 30px;
-  display: flex;
-  gap: 100px;
-
+    margin: 30px 50px;
+}
+.navigation {
+    margin: 15px 0;
 }
 
-.list {
-  background: #e0e0e0;
-  width: 150px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.left_container {
-  display: flex;
-  height: max-content;
-}
-
-.right_container {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.link {
+    text-decoration: none;
 }
