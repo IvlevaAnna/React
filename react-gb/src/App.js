@@ -5,26 +5,30 @@ import {Profile} from "./views/Profile/Profile";
 import {Chats} from "./views/Chats/Chats";
 import {Chat} from "./components/Chat/Chat";
 import {Provider} from "react-redux";
-import {store} from "./store";
+import {persistor, store} from "./store";
+import {PersistGate} from "redux-persist/integration/react";
+import {ChatsContainer} from "./views/Chats/ChatsContainer";
 
 function App() {
 
   return (
       <div className='App'>
           <Provider store={store}>
-              <BrowserRouter>
-                  <div className="navigation">
-                      <Link className="link" to="/">HOME</Link> /
-                      <Link className="link" to='/chats'> CHATS</Link>
-                  </div>
-                  <Routes>
-                      <Route path='/' element={<Home />} />
-                      <Route path='profile' element={<Profile />} />
-                      <Route path='chats' element={<Chats />}>
-                          <Route path=':chatId' element={<Chat />} />
-                      </Route>
-                  </Routes>
-              </BrowserRouter>
+              <PersistGate persistor={persistor}>
+                  <BrowserRouter>
+                      <div className="navigation">
+                          <Link className="link" to="/">HOME</Link> /
+                          <Link className="link" to='/chats'> CHATS</Link>
+                      </div>
+                      <Routes>
+                          <Route path='/' element={<Home />} />
+                          <Route path='profile' element={<Profile />} />
+                          <Route path='chats' element={<ChatsContainer />}>
+                              <Route path=':chatId' element={<Chat />} />
+                          </Route>
+                      </Routes>
+                  </BrowserRouter>
+              </PersistGate>
           </Provider>
       </div>
   );

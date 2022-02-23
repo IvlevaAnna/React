@@ -17,3 +17,13 @@ export const addMessage = (chatId, newMessage) => ({
     id: chatId,
     message: newMessage
 })
+
+export const addMessageWithThunk = (chatId, newMessage) => (dispatch) => {
+    dispatch(addMessage(chatId, newMessage))
+    if(newMessage.author !== 'robot') {
+        setTimeout(() => {
+            dispatch(addMessage(chatId,
+                {text: `Your message is: ${newMessage.text}`, author: 'robot', id: `msg-${Date.now()}`}))
+        }, 1500)
+    }
+}

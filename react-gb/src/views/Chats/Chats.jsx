@@ -1,40 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import s from './Chats.module.css'
 import List from "@material-ui/core/List/List";
 import {Link, Outlet } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem/ListItem";
-import {useDispatch, useSelector} from "react-redux";
-import {addChat, deleteChat} from "../../store/chats/actions";
-import {chatsSelector} from "../../store/chats/selectors";
 import Button from "@material-ui/core/Button/Button";
-import {Dialog, DialogContent, Modal, TextField} from "@material-ui/core";
-import {addChatMessages} from "../../store/messages/actions";
+import {Dialog, DialogContent, TextField} from "@material-ui/core";
 
-export const Chats = () => {
-    const dispatch = useDispatch()
-    const [open, setOpen] = useState(false)
-    const [name, setName] = useState('')
-
-    const chats = useSelector(chatsSelector)
-
-    const handleOpen = () => {
-        setOpen(true)
-    }
-
-    const handleClose = () => {
-        setOpen(false)
-    }
-
-    const handleChange = (e) => {
-        setName(e.target.value)
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        dispatch(addChat(`chat-${name}`, name))
-        dispatch(addChatMessages(`chat-${name}`))
-        setOpen(false)
-    }
+export const Chats = ({chats, handleOpen, open, handleClose, name, handleChange, handleSubmit }) => {
 
     return (
         <div className={s.container}>
