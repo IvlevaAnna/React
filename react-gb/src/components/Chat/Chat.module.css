@@ -3,3 +3,8 @@
     flex-direction: column;
     flex: 1;
 }
+
+.left_container {
+    display: flex;
+    flex-direction: column;
+}
