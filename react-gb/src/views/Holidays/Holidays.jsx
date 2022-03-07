@@ -1,34 +1,44 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {dataSelector, errorSelector, loadingSelector} from "../../store/holidays/selectors";
+import {dataSelector, errorSelector, statusSelector} from "../../store/holidays/selectors";
 import {getHoliday} from "../../store/holidays/actions";
-import {Table, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
-import * as PropTypes from "prop-types";
-import {Loader} from "semantic-ui-react";
+import {Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
+import {Loader, Segment, Dimmer} from "semantic-ui-react";
 
-function Dimmer(props) {
-    return null;
-}
-
-Dimmer.propTypes = {
-    active: PropTypes.bool,
-    children: PropTypes.node
-};
 export const Holidays = () => {
+    const [isLoading, setIsLoading] = useState(true)
     const dispatch = useDispatch()
     const data = useSelector(dataSelector)
-    const isLoading = useSelector(loadingSelector)
+    const status = useSelector(statusSelector)
     const isError = useSelector(errorSelector)
 
+    const getData = async () => {
+        dispatch(getHoliday());
+    };
+
     useEffect(() => {
-        dispatch(getHoliday())
+        getData()
     }, [])
 
+    useEffect(() => {
+        setIsLoading(status === 1)
+    }, [status])
+
     return (
-        <>
+        <div>
+            {isError && <>
+                <Button onClick={getData}>Refresh</Button>
+                <h3>Error</h3>
+            </>}
             {
                 isLoading ? (
-                    <TableContainer component={Paper}>
+                        <Segment>
+                            <Dimmer active inverted>
+                                <Loader inverted>Loading</Loader>
+                            </Dimmer>
+                        </Segment>
+                ) : (
+                    <TableContainer>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -53,12 +63,8 @@ export const Holidays = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                ) : (
-                    <Dimmer active>
-                        <Loader>Loading</Loader>
-                    </Dimmer>
                 )
             }
-        </>
+        </div>
     )
 }
