@@ -5,7 +5,7 @@ import {MessageForm} from "../MessageForm/MessageForm";
 import {Message} from "../Message/Message";
 import {useDispatch, useSelector} from "react-redux";
 import {messagesSelector} from "../../store/messages/selectors";
-import {addMessage, deleteChatMessages} from "../../store/messages/actions";
+import {addMessageWithThunk, deleteChatMessages} from "../../store/messages/actions";
 import {deleteChat} from "../../store/chats/actions";
 import Button from "@material-ui/core/Button/Button";
 
@@ -16,20 +16,8 @@ export const Chat = () => {
 
     const messageList = useSelector(messagesSelector)
 
-    useEffect(() => {
-        let timeout
-        if(messageList[chatId][messageList[chatId]?.length -1]?.author === 'me') {
-            timeout = setTimeout(() => {
-                dispatch(addMessage(chatId,
-                    {text: `Your message is: ${messageList[chatId][messageList[chatId].length-1].text}`, author: 'robot', id: `msg-${Date.now()}`}))
-            }, 1500)
-        }
-
-        return () => clearTimeout(timeout)
-    }, [messageList])
-
     const handleSubmit = (messageText) => {
-        dispatch(addMessage(chatId, {text: messageText, author: 'me', id: `msg-${Date.now()}`}))
+        dispatch(addMessageWithThunk(chatId, {text: messageText, author: 'me', id: `msg-${Date.now()}`}))
     }
 
     if (!messageList[chatId]) {
